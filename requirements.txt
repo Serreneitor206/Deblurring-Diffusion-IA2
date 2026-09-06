@@ -1,0 +1,10 @@
+torch>=1.10.0
+torchvision>=0.11.0
+numpy>=1.21.0
+opencv-python
+Pillow
+scipy
+scikit-image
+kagglehub
+tqdm
+matplotlib
