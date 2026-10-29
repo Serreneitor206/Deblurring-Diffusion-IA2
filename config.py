@@ -1,34 +1,31 @@
 import os
 
 class Config:
-    # Ruta local
-    DATA_PATH = r"C:\Users\LENOVO\Documents\IA2Proyecto\archive\Gopro"  
-    
-    # Parámetros ORIGINALES del paper (Para replicación rigurosa)
-    T = 30
-    S = 200
-    
-    # Parámetros RÁPIDOS (Para la interfaz en segundos)
-    FAST_T = 3
-    FAST_S = 10
-    
+    DATA_PATH = r"C:\Users\LENOVO\Documents\IA2Proyecto\archive\Gopro"
+    SPLIT_TRAIN = 'train'
+    SPLIT_TEST = 'test'
+
+    PATCH_SIZE = 128
+    MAX_TRAIN_IMAGES = 2103         # ← subimos
+    MAX_TEST_IMAGES = 10
+
+    BATCH_SIZE = 2                 # baja a 1 si hay OOM
+    NUM_WORKERS = 2
+    EPOCHS = 60                    # ← subimos
+    LR = 1e-6
+    WEIGHT_DECAY = 1e-4
+    SAVE_EVERY = 10
+    CKPT_DIR = "./checkpoints"
+    OUTPUT_DIR = "./results"
+
+    # Difusión
+    TIMESTEPS = 500
     BETA_START = 1e-4
-    BETA_END = 2e-2
-    LAMBDA_K = 2e-3
-    MU = 1.0
-    
-    KERNEL_SIZE = 25  
-    
-    LR_IMAGE = 1e-3
-    LR_KERNEL = 2.5e-4
-    LR_DECAY = 0.95
-    MIN_LR = 1e-5
-    KERNEL_HIDDEN_DIM = 2000
-    KERNEL_HIDDEN_LAYERS = 3
-    
-    IMG_SIZE = 256
-    OUTPUT_PATH = "./results_gopro"
-    
-    # Rutas para guardar los pesos y no empezar desde cero en la interfaz
-    UNET_SAVE_PATH = "./unet_warm_weights.pth"
-    KERNEL_SAVE_PATH = "./kernel_warm_weights.pth"
+    BETA_END = 0.02
+    SCHEDULE = "cosine"            # ← cambio de linear a cosine
+
+    # Modelo
+    BASE_CHANNELS = 64             # ← 2x más grande
+    TIME_EMB_DIM = 256             # ← 2x más grande
+    PREDICT_X0 = True              # ← predicción de imagen limpia
+    RESIDUAL = True                # ← x0 = blur + delta
