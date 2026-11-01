@@ -8,3 +8,4 @@ scikit-image
 kagglehub
 tqdm
 matplotlib
+gdown
