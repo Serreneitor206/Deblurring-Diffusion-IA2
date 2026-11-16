@@ -135,11 +135,11 @@ Todo el pipeline está en el notebook de Colab
 
 | Etapa | Qué hace | Salida en `DRIVE_DIR` |
 |---|---|---|
-| 0 · Datos | Descomprime, crea el split por video y la caché local | `split.json` |
-| 1 · NAFNet-64 | Predicciones con pesos oficiales; fine-tuning opcional (`RUN_FINETUNE`) | `nafnet/` |
-| 2 · Difusión | Entrena la U-Net residual | `difusion/unet/best.pt`, `log.csv` |
-| 3 · Evaluación | Ablaciones y tabla final en el test completo | `eval/ablaciones/`, `eval/final/` (`summary.md`, `per_image.csv`, `salidas/dif_unet/`) |
-| 4 · Figuras | Curvas, percepción–distorsión, cualitativos e incertidumbre | `figuras/` |
+| 0. Datos | Descomprime, crea el split por video y la caché local | `split.json` |
+| 1. NAFNet-64 | Predicciones con pesos oficiales; fine-tuning opcional (`RUN_FINETUNE`) | `nafnet/` |
+| 2. Difusión | Entrena la U-Net residual | `difusion/unet/best.pt`, `log.csv` |
+| 3. Evaluación | Ablaciones y tabla final en el test completo | `eval/ablaciones/`, `eval/final/` (`summary.md`, `per_image.csv`, `salidas/dif_unet/`) |
+| 4. Figuras | Curvas, percepción–distorsión, cualitativos e incertidumbre | `figuras/` |
 
 Todas las etapas son **reanudables**. Los checkpoints y los CSV se escriben en Drive mientras
 corren, así que si Colab se desconecta basta con volver a ejecutar la misma celda. Se necesitan
