@@ -1,7 +1,7 @@
 # Deblurring-Diffusion-IA2
 
 **Restauración de imágenes borrosas mediante un modelo de difusión condicional.**
-Proyecto final de Inteligencia Artificial II — Universidad Industrial de Santander (UIS).
+Proyecto final de Inteligencia Artificial II - Universidad Industrial de Santander.
 
 Eliminamos el desenfoque de movimiento en el dataset **GoPro** con un esquema de dos etapas:
 **NAFNet-64** da una restauración fiel y una **difusión residual** genera solo el detalle que le
@@ -10,9 +10,9 @@ a cambio de **1.2 dB de PSNR**.
 
 **Integrantes**
 
-- Juan Felipe Serrano Contreras — 2230088
-- María Lucía Rodríguez Olarte — 2231853
-- Santiago Ardila Lagos — 2230086
+- Juan Felipe Serrano Contreras - 2230088
+- María Lucía Rodríguez Olarte - 2231853
+- Santiago Ardila Lagos - 2230086
 
 ---
 
@@ -28,7 +28,7 @@ Test completo del GoPro oficial: 1 111 imágenes a 1280×720.
 | **NAFNet-FT + difusión (nuestro)** | 33.43 | 0.9430 | **0.0661** |
 
 La regresión (NAFNet) maximiza el PSNR, pero devuelve el *promedio* de las soluciones posibles,
-que se ve suave. La difusión agrega textura y bordes: pierde algo de fidelidad píxel a píxel y
+que se ve suave. La difusión agrega textura y bordes, pierde algo de fidelidad píxel a píxel y
 gana en percepción. Es el compromiso percepción–distorsión de Blau y Michaeli (2018).
 
 Además, como la difusión es estocástica, con 8 muestras por imagen se obtiene un **mapa de
@@ -50,9 +50,9 @@ error real: bordes, texturas y caras.
 Basado en la arquitectura de doble red de Whang et al., *Deblurring via Stochastic Refinement*
 (CVPR 2022).
 
-1. **Etapa 1 · determinista.** NAFNet-64 predice ŷ ≈ E[x | y]. Se congela y sus predicciones se
+1. **Etapa determinista.** NAFNet-64 predice ŷ ≈ E[x | y]. Se congela y sus predicciones se
    guardan en disco.
-2. **Etapa 2 · estocástica.** Un DDPM condicional aprende la distribución del residuo escalado
+2. **Etapa estocástica.** Un DDPM condicional aprende la distribución del residuo escalado
    r = (x − ŷ)/s. El factor s lleva el residuo a desviación estándar 0.5. El residuo tiene media
    ≈ 0 y contiene sobre todo altas frecuencias, así que es más fácil de modelar que la imagen
    completa.
@@ -104,14 +104,14 @@ mosaicos de 256 px con solapamiento 32.
 | Configuración | PSNR (dB) ↑ | LPIPS ↓ | s / imagen |
 |---|---|---|---|
 | NAFNet-64 + FT (sin difusión) | 33.96 | 0.0754 | — |
-| t₀ = 0.25 · 20 pasos | 33.81 | 0.0668 | ≈ 14 |
-| t₀ = 0.5 · 20 pasos | 33.63 | 0.0620 | 14.0 |
-| t₀ = 0.75 · 20 pasos | 33.23 | 0.0568 | ≈ 14 |
-| t₀ = 1.0 (ruido puro) · 20 pasos | 32.45 | 0.0571 | ≈ 14 |
-| t₀ = 0.5 · 5 pasos | 33.72 | 0.0669 | 3.4 |
-| **t₀ = 0.5 · 10 pasos (elegida)** | **33.66** | **0.0637** | **6.8** |
-| t₀ = 0.5 · 20 pasos · promedio N = 2 | 33.78 | 0.068 | — |
-| t₀ = 0.5 · 20 pasos · promedio N = 4 | 33.87 | 0.072 | — |
+| t₀ = 0.25 - 20 pasos | 33.81 | 0.0668 | ≈ 14 |
+| t₀ = 0.5 - 20 pasos | 33.63 | 0.0620 | 14.0 |
+| t₀ = 0.75 - 20 pasos | 33.23 | 0.0568 | ≈ 14 |
+| t₀ = 1.0 (ruido puro) - 20 pasos | 32.45 | 0.0571 | ≈ 14 |
+| t₀ = 0.5 - 5 pasos | 33.72 | 0.0669 | 3.4 |
+| **t₀ = 0.5 - 10 pasos (elegida)** | **33.66** | **0.0637** | **6.8** |
+| t₀ = 0.5 - 20 pasos - promedio N = 2 | 33.78 | 0.068 | — |
+| t₀ = 0.5 - 20 pasos - promedio N = 4 | 33.87 | 0.072 | — |
 
 - **t₀** mueve el resultado por la frontera percepción–distorsión: más ruido da mejor LPIPS y
   menos PSNR. Con ruido puro ya no mejora la percepción.
@@ -183,16 +183,3 @@ El código de la entrega 2 sigue en el repositorio (`Deblurring_Difusion_Entrega
 - LPIPS aproxima la percepción humana; falta una evaluación con personas.
 
 ---
-
-## Referencias
-
-- Nah, Kim, Lee. *Deep Multi-Scale Convolutional Neural Network for Dynamic Scene Deblurring*. CVPR 2017.
-- Whang et al. *Deblurring via Stochastic Refinement*. CVPR 2022.
-- Chen et al. *Simple Baselines for Image Restoration (NAFNet)*. ECCV 2022.
-- Ho, Jain, Abbeel. *Denoising Diffusion Probabilistic Models*. NeurIPS 2020.
-- Song, Meng, Ermon. *Denoising Diffusion Implicit Models*. ICLR 2021.
-- Meng et al. *SDEdit*. ICLR 2022 · Chung et al. *Come-Closer-Diffuse-Faster*. CVPR 2022.
-- Salimans, Ho. *Progressive Distillation for Fast Sampling of Diffusion Models* (v-prediction). ICLR 2022.
-- Hang et al. *Efficient Diffusion Training via Min-SNR Weighting Strategy*. ICCV 2023.
-- Blau, Michaeli. *The Perception-Distortion Tradeoff*. CVPR 2018.
-- Zhang et al. *The Unreasonable Effectiveness of Deep Features as a Perceptual Metric (LPIPS)*. CVPR 2018.
